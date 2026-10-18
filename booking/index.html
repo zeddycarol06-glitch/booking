@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Dream Hotel</h1>
+        <p>Comfort Stay, Better Days</p>
+        <h1>Welcome to Our Hotel</h1>
+        <section class="booking">
+            <div class="container">
+                <button class="booking-toggle" id="booking-toggle" type="button" aria-expanded="false" aria-controls="booking-details">
+                    Book Your Stay
+                </button>
+                <div id="booking-details" hidden>
+                    <form class="form" id="booking-form">
+                        <label for="guest-name">Full name</label>
+                        <input id="guest-name" name="name" type="text" autocomplete="name" placeholder="Your full name" minlength="2" maxlength="100" required>
+                        <label for="guest-email">Email</label>
+                        <input id="guest-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required>
+                        <label for="guest-phone">Phone</label>
+                        <input id="guest-phone" name="phone" type="tel" autocomplete="tel" placeholder="+254..." minlength="7" maxlength="30" required>
+                        <label for="room-type">Room type</label>
+                        <select id="room-type" name="roomType" required>
+                            <option value="">Choose a room</option>
+                            <option value="Standard Room">Standard Room</option>
+                            <option value="Deluxe Room">Deluxe Room</option>
+                            <option value="Luxury Suite">Luxury Suite</option>
+                        </select>
+                        <label for="check-in">Check-in</label>
+                        <input id="check-in" name="checkIn" type="date" required>
+                        <label for="check-out">Check-out</label>
+                        <input id="check-out" name="checkOut" type="date" required>
+                        <label for="guests">Guests</label>
+                        <input id="guests" name="guests" type="number" min="1" max="10" value="1" required>
+                        <button type="submit">Request Booking</button>
+                        <p id="booking-message" class="form-message" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+       
+<nav>
+    <ul>
+        <li><a href="rooms.html">Rooms</a></li>
+        <li><a href="amenities.html">Amenities</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+</nav>
+
+    </header>
+    <script src="booking.js?v=2" defer></script>
+</body>
+</html>

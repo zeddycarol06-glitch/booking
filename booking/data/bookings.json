@@ -1,0 +1,14 @@
+[
+  {
+    "id": "e80ae9a0-412a-4bda-90ef-1d3543756536",
+    "name": "zeddycarol",
+    "email": "zeddycarol06@gmail.com",
+    "phone": "0748784551",
+    "roomType": "Standard Room",
+    "checkIn": "2026-10-18",
+    "checkOut": "2026-10-19",
+    "guests": 1,
+    "status": "pending",
+    "createdAt": "2026-10-18T14:33:38.149Z"
+  }
+]

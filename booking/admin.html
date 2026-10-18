@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - Dream Hotel</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="admin.js?v=2" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Dream Hotel</h1>
+        <p>Manager dashboard</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container content-page admin-page">
+        <section id="login-panel" class="admin-panel">
+            <p class="eyebrow">Staff access</p>
+            <h2>Manager sign in</h2>
+            <p class="page-intro">Sign in to review valid booking requests.</p>
+            <form id="login-form" class="admin-login-form">
+                <label for="admin-username">Username</label>
+                <input id="admin-username" name="username" autocomplete="username" required>
+                <label for="admin-password">Password</label>
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+                <button type="submit">Sign in</button>
+                <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+        <section id="dashboard-panel" hidden>
+            <div class="dashboard-heading">
+                <div>
+                    <p class="eyebrow">Reservations</p>
+                    <h2>Booking requests</h2>
+                </div>
+                <button id="logout-button" class="secondary-button" type="button">Sign out</button>
+            </div>
+            <p id="dashboard-message" class="form-message" role="status" aria-live="polite"></p>
+            <div class="table-wrap">
+                <table class="booking-table">
+                    <thead>
+                        <tr>
+                            <th>Guest</th>
+                            <th>Room</th>
+                            <th>Stay</th>
+                            <th>Guests</th>
+                            <th>Received</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booking-list"></tbody>
+                </table>
+            </div>
+            <p id="empty-state" class="empty-state" hidden>No valid booking requests yet.</p>
+        </section>
+    </main>
+</body>
+</html>
