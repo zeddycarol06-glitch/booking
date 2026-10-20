@@ -1,4 +1,4 @@
-const ROOM_TYPES = new Set(["Standard Room", "Deluxe Room", "Luxury Suite"]);
+import { getRoomType } from "./rooms.js";
 
 function isValidCalendarDate(value) {
     if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
@@ -21,6 +21,7 @@ export function validateBooking(input, today = new Date().toISOString().slice(0,
     const checkIn = typeof input.checkIn === "string" ? input.checkIn : "";
     const checkOut = typeof input.checkOut === "string" ? input.checkOut : "";
     const guests = Number(input.guests);
+    const room = getRoomType(roomType);
 
     if (name.length < 2 || name.length > 100) {
         return { valid: false, error: "Enter a name between 2 and 100 characters." };
@@ -31,14 +32,14 @@ export function validateBooking(input, today = new Date().toISOString().slice(0,
     if (phone.length < 7 || phone.length > 30) {
         return { valid: false, error: "Enter a valid phone number." };
     }
-    if (!ROOM_TYPES.has(roomType)) {
+    if (!room) {
         return { valid: false, error: "Choose one of the available room types." };
     }
     if (!isValidCalendarDate(checkIn) || !isValidCalendarDate(checkOut) || checkIn < today || checkOut <= checkIn) {
         return { valid: false, error: "Choose valid dates, with check-out after check-in and no dates in the past." };
     }
-    if (!Number.isInteger(guests) || guests < 1 || guests > 10) {
-        return { valid: false, error: "Choose between 1 and 10 guests." };
+    if (!Number.isInteger(guests) || guests < 1 || guests > room.maxGuests) {
+        return { valid: false, error: `Choose between 1 and ${room.maxGuests} guests for a ${room.name}.` };
     }
 
     return {

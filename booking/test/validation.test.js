@@ -29,3 +29,16 @@ test("rejects past dates, invalid room choices, and out-of-range guest counts", 
     assert.equal(validateBooking({ ...validBooking, roomType: "Penthouse" }, "2027-01-01").valid, false);
     assert.equal(validateBooking({ ...validBooking, guests: "11" }, "2027-01-01").valid, false);
 });
+
+test("enforces per-room-type guest limits", () => {
+    const standardTooMany = validateBooking({ ...validBooking, guests: "3" }, "2027-01-01");
+    assert.equal(standardTooMany.valid, false);
+    assert.match(standardTooMany.error, /between 1 and 2 guests/);
+
+    const deluxeWithThree = validateBooking({ ...validBooking, roomType: "Deluxe Room", guests: "3" }, "2027-01-01");
+    assert.equal(deluxeWithThree.valid, true);
+
+    const suiteWithSix = validateBooking({ ...validBooking, roomType: "Luxury Suite", guests: "6" }, "2027-01-01");
+    assert.equal(suiteWithSix.valid, true);
+    assert.equal(validateBooking({ ...validBooking, roomType: "Luxury Suite", guests: "7" }, "2027-01-01").valid, false);
+});

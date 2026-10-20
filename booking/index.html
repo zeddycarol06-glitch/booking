@@ -3,56 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Booking</title>
+    <meta name="description" content="Dream Hotel — elegant rooms, warm Kenyan hospitality and simple online booking with instant price quotes.">
+    <meta name="theme-color" content="#0F2436">
+    <title>Dream Hotel — Comfort Stay, Better Days</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2436'/><text x='32' y='45' font-size='38' font-family='Georgia,serif' font-weight='bold' fill='%23C9A24B' text-anchor='middle'>D</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Dream Hotel</h1>
-        <p>Comfort Stay, Better Days</p>
-        <h1>Welcome to Our Hotel</h1>
-        <section class="booking">
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a class="brand" href="index.html">Dream Hotel</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" aria-current="page">Home</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">Comfort Stay, Better Days</p>
+                <h1>Dream Hotel</h1>
+                <p class="hero-lede">Elegant rooms, thoughtful amenities and warm Kenyan hospitality — reserve your stay with a clear price before you commit.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" id="hero-book" href="#booking">Book your stay</a>
+                    <a class="btn btn-ghost" href="rooms.html">Explore rooms</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="booking-section" id="booking" aria-labelledby="booking-heading">
             <div class="container">
-                <button class="booking-toggle" id="booking-toggle" type="button" aria-expanded="false" aria-controls="booking-details">
-                    Book Your Stay
-                </button>
-                <div id="booking-details" hidden>
-                    <form class="form" id="booking-form">
-                        <label for="guest-name">Full name</label>
-                        <input id="guest-name" name="name" type="text" autocomplete="name" placeholder="Your full name" minlength="2" maxlength="100" required>
-                        <label for="guest-email">Email</label>
-                        <input id="guest-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required>
-                        <label for="guest-phone">Phone</label>
-                        <input id="guest-phone" name="phone" type="tel" autocomplete="tel" placeholder="+254..." minlength="7" maxlength="30" required>
-                        <label for="room-type">Room type</label>
-                        <select id="room-type" name="roomType" required>
-                            <option value="">Choose a room</option>
-                            <option value="Standard Room">Standard Room</option>
-                            <option value="Deluxe Room">Deluxe Room</option>
-                            <option value="Luxury Suite">Luxury Suite</option>
-                        </select>
-                        <label for="check-in">Check-in</label>
-                        <input id="check-in" name="checkIn" type="date" required>
-                        <label for="check-out">Check-out</label>
-                        <input id="check-out" name="checkOut" type="date" required>
-                        <label for="guests">Guests</label>
-                        <input id="guests" name="guests" type="number" min="1" max="10" value="1" required>
-                        <button type="submit">Request Booking</button>
-                        <p id="booking-message" class="form-message" role="status" aria-live="polite"></p>
-                    </form>
+                <p class="eyebrow">Reservations</p>
+                <h2 id="booking-heading">Book your stay</h2>
+                <p class="section-lede">Share your dates and we'll hold your room. The full price appears before you send your request.</p>
+
+                <div class="booking-card">
+                    <button class="booking-toggle" id="booking-toggle" type="button" aria-expanded="false" aria-controls="booking-details">
+                        Start your booking
+                    </button>
+                    <div id="booking-details" hidden>
+                        <form class="form" id="booking-form">
+                            <div class="field">
+                                <label for="guest-name">Full name</label>
+                                <input id="guest-name" name="name" type="text" autocomplete="name" placeholder="Your full name" minlength="2" maxlength="100" required>
+                            </div>
+                            <div class="field">
+                                <label for="guest-email">Email</label>
+                                <input id="guest-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required>
+                            </div>
+                            <div class="field">
+                                <label for="guest-phone">Phone</label>
+                                <input id="guest-phone" name="phone" type="tel" autocomplete="tel" placeholder="+254 700 000 000" minlength="7" maxlength="30" required>
+                            </div>
+                            <div class="field">
+                                <label for="room-type">Room type</label>
+                                <select id="room-type" name="roomType" required>
+                                    <option value="">Choose a room</option>
+                                    <option value="Standard Room">Standard Room</option>
+                                    <option value="Deluxe Room">Deluxe Room</option>
+                                    <option value="Luxury Suite">Luxury Suite</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="check-in">Check-in</label>
+                                <input id="check-in" name="checkIn" type="date" required>
+                            </div>
+                            <div class="field">
+                                <label for="check-out">Check-out</label>
+                                <input id="check-out" name="checkOut" type="date" required>
+                            </div>
+                            <div class="field">
+                                <label for="guests">Guests</label>
+                                <input id="guests" name="guests" type="number" min="1" max="2" value="1" required>
+                            </div>
+                            <div class="field field-quote">
+                                <p id="price-quote" class="price-quote" role="status" aria-live="polite" hidden></p>
+                            </div>
+                            <div class="field field-span">
+                                <button class="btn btn-primary btn-block" type="submit">Request booking</button>
+                                <p id="booking-message" class="form-message" role="status" aria-live="polite"></p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
-       
-<nav>
-    <ul>
-        <li><a href="rooms.html">Rooms</a></li>
-        <li><a href="amenities.html">Amenities</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-    </ul>
-</nav>
+    </main>
 
-    </header>
-    <script src="booking.js?v=2" defer></script>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p class="footer-brand">Dream Hotel</p>
+                <p>Comfort Stay, Better Days</p>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="rooms.html">Rooms</a></li>
+                    <li><a href="amenities.html">Amenities</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="admin.html">Manager dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contact">
+                <a href="mailto:info@dreamhotel.com">info@dreamhotel.com</a>
+                <a href="tel:+254796488109">+254 796488109</a>
+                <p>Kenya</p>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 Dream Hotel. All rights reserved.</p>
+    </footer>
+
+    <script src="nav.js" defer></script>
+    <script src="booking.js?v=4" defer></script>
 </body>
 </html>

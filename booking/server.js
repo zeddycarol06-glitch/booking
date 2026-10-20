@@ -11,6 +11,9 @@ import {
 } from "node:crypto";
 import { promisify } from "node:util";
 import { validateBooking } from "./validation.js";
+import { ROOM_TYPES, getRoomType, nightsBetween, quoteStay } from "./rooms.js";
+import { checkAvailability } from "./availability.js";
+import { notifyAsync } from "./notify.js";
 
 const scrypt = promisify(scryptCallback);
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -205,6 +208,15 @@ function sendStaticFile(request, response, pathname) {
 }
 
 async function handleApi(request, response, url) {
+    if (request.method === "GET" && url.pathname === "/api/rooms") {
+        json(response, 200, {
+            rooms: ROOM_TYPES.map(({ id, name, nightlyRate, totalRooms, maxGuests }) => ({
+                id, name, nightlyRate, totalRooms, maxGuests
+            }))
+        });
+        return;
+    }
+
     if (request.method === "POST" && url.pathname === "/api/bookings") {
         const body = await readJson(request);
         const result = validateBooking(body);
@@ -213,14 +225,37 @@ async function handleApi(request, response, url) {
             return;
         }
 
-        const booking = {
-            id: randomUUID(),
-            ...result.booking,
-            status: "pending",
-            createdAt: new Date().toISOString()
-        };
-        await updateBookings((currentBookings) => [booking, ...currentBookings]);
-        json(response, 201, { message: "Booking request received.", booking: { id: booking.id, status: booking.status } });
+        const { roomType, checkIn, checkOut } = result.booking;
+        const room = getRoomType(roomType);
+        const quote = quoteStay(room, nightsBetween(checkIn, checkOut));
+        let booking;
+        await updateBookings((currentBookings) => {
+            const availability = checkAvailability(roomType, checkIn, checkOut, currentBookings);
+            if (!availability.available) {
+                const error = new Error(`All ${roomType}s are booked for those dates. Choose different dates or another room type.`);
+                error.statusCode = 409;
+                throw error;
+            }
+            booking = {
+                id: randomUUID(),
+                ...result.booking,
+                ...quote,
+                status: "pending",
+                createdAt: new Date().toISOString()
+            };
+            return [booking, ...currentBookings];
+        });
+        notifyAsync("booking.created", booking);
+        json(response, 201, {
+            message: "Booking request received.",
+            booking: {
+                id: booking.id,
+                status: booking.status,
+                nights: booking.nights,
+                totalPrice: booking.totalPrice,
+                currency: booking.currency
+            }
+        });
         return;
     }
 
@@ -269,7 +304,23 @@ async function handleApi(request, response, url) {
 
     if (request.method === "GET" && url.pathname === "/api/bookings") {
         if (!requireSession(request, response)) return;
-        json(response, 200, { bookings });
+        const status = url.searchParams.get("status");
+        const search = (url.searchParams.get("search") || "").trim().toLowerCase();
+        let filtered = bookings;
+        if (status && ALLOWED_STATUSES.has(status)) {
+            filtered = filtered.filter((booking) => booking.status === status);
+        }
+        if (search) {
+            filtered = filtered.filter((booking) =>
+                [booking.name, booking.email, booking.phone, booking.id]
+                    .some((value) => String(value || "").toLowerCase().includes(search))
+            );
+        }
+        const counts = { total: bookings.length, pending: 0, confirmed: 0, rejected: 0 };
+        for (const booking of bookings) {
+            if (booking.status in counts) counts[booking.status] += 1;
+        }
+        json(response, 200, { bookings: filtered, total: bookings.length, counts });
         return;
     }
 
@@ -284,6 +335,15 @@ async function handleApi(request, response, url) {
         const updatedBookings = await updateBookings((currentBookings) => {
             const index = currentBookings.findIndex((booking) => booking.id === bookingMatch[1]);
             if (index < 0) return null;
+            const current = currentBookings[index];
+            if (body.status === "confirmed" && current.status !== "confirmed") {
+                const availability = checkAvailability(current.roomType, current.checkIn, current.checkOut, currentBookings, current.id);
+                if (!availability.available) {
+                    const error = new Error(`No ${current.roomType}s are free for those dates. Reject the overlapping request first or ask the guest for new dates.`);
+                    error.statusCode = 409;
+                    throw error;
+                }
+            }
             const nextBookings = [...currentBookings];
             nextBookings[index] = { ...nextBookings[index], status: body.status, updatedAt: new Date().toISOString() };
             return nextBookings;
@@ -293,6 +353,7 @@ async function handleApi(request, response, url) {
             return;
         }
         const updated = updatedBookings.find((booking) => booking.id === bookingMatch[1]);
+        notifyAsync(`booking.${body.status === "confirmed" ? "confirmed" : body.status === "rejected" ? "rejected" : "updated"}`, updated);
         json(response, 200, { booking: updated });
         return;
     }

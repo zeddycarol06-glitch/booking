@@ -1,56 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rooms - Dream Hotel</title>
+    <meta name="description" content="Explore the Dream Hotel room collection — Standard Rooms, Deluxe Rooms and Luxury Suites with nightly rates.">
+    <meta name="theme-color" content="#0F2436">
+    <title>Rooms — Dream Hotel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2436'/><text x='32' y='45' font-size='38' font-family='Georgia,serif' font-weight='bold' fill='%23C9A24B' text-anchor='middle'>D</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Dream Hotel</h1>
-        <p>Comfort Stay, Better Days</p>
-
-        <nav>
-            <ul>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a class="brand" href="index.html">Dream Hotel</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="rooms.html" aria-current="page">Rooms</a></li>
                 <li><a href="amenities.html">Amenities</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
+
+        <div class="hero hero-compact">
+            <div class="hero-content">
+                <p class="eyebrow">Find your perfect stay</p>
+                <h1>Our Rooms</h1>
+            </div>
+        </div>
     </header>
 
     <main class="container content-page">
-        <p class="eyebrow">Find your perfect stay</p>
-        <h2>Our Rooms</h2>
-        <p class="page-intro">Choose a comfortable space to unwind and make the most of your stay.</p>
+        <p class="page-intro">Three room types, each designed for comfort. Rates are per night and confirmed when you book.</p>
 
         <div class="card-grid room-grid">
             <article class="info-card room-card">
                 <img class="room-image" src="images/standard-room.jpg" alt="Hotel building exterior">
-                <span class="card-label">Comfort</span>
-                <h3>Standard Room</h3>
-                <p>Comfortable accommodation for a relaxing stay.</p>
-                <p class="price">KSh 3,000 <span>per night</span></p>
+                <div class="card-body">
+                    <span class="card-label">Comfort</span>
+                    <h3>Standard Room</h3>
+                    <p>Comfortable accommodation for a relaxing stay.</p>
+                    <p class="price" data-room-price="Standard Room">KSh 3,000 <span>per night</span></p>
+                </div>
             </article>
             <article class="info-card room-card">
                 <img class="room-image" src="images/deluxe-room.jpg" alt="Modern hotel entrance">
-                <span class="card-label">More space</span>
-                <h3>Deluxe Room</h3>
-                <p>A spacious room with extra comfort and style.</p>
-                <p class="price">KSh 5,000 <span>per night</span></p>
+                <div class="card-body">
+                    <span class="card-label">More space</span>
+                    <h3>Deluxe Room</h3>
+                    <p>A spacious room with extra comfort and style.</p>
+                    <p class="price" data-room-price="Deluxe Room">KSh 5,000 <span>per night</span></p>
+                </div>
             </article>
             <article class="info-card room-card">
                 <img class="room-image" src="images/luxury-suite.jpg" alt="Beachfront resort with a swimming pool">
-                <span class="card-label">Premium</span>
-                <h3>Luxury Suite</h3>
-                <p>Enjoy premium accommodation and elegant surroundings.</p>
-                <p class="price">KSh 8,000 <span>per night</span></p>
+                <div class="card-body">
+                    <span class="card-label">Premium</span>
+                    <h3>Luxury Suite</h3>
+                    <p>Enjoy premium accommodation and elegant surroundings.</p>
+                    <p class="price" data-room-price="Luxury Suite">KSh 8,000 <span>per night</span></p>
+                </div>
             </article>
         </div>
+
+        <a class="btn btn-primary" href="index.html#booking">Book a room</a>
         <a class="back-link" href="index.html">Back to Home</a>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p class="footer-brand">Dream Hotel</p>
+                <p>Comfort Stay, Better Days</p>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="rooms.html">Rooms</a></li>
+                    <li><a href="amenities.html">Amenities</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="admin.html">Manager dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contact">
+                <a href="mailto:info@dreamhotel.com">info@dreamhotel.com</a>
+                <a href="tel:+254796488109">+254 796488109</a>
+                <p>Kenya</p>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 Dream Hotel. All rights reserved.</p>
+    </footer>
+
+    <script src="nav.js" defer></script>
+    <script src="rooms-page.js" defer></script>
 </body>
 </html>

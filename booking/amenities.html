@@ -1,42 +1,122 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amenities - Dream Hotel</title>
+    <meta name="description" content="Dream Hotel amenities — free Wi-Fi, swimming pool, restaurant, parking, room service, fitness centre and conference facilities.">
+    <meta name="theme-color" content="#0F2436">
+    <title>Amenities — Dream Hotel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2436'/><text x='32' y='45' font-size='38' font-family='Georgia,serif' font-weight='bold' fill='%23C9A24B' text-anchor='middle'>D</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Dream Hotel</h1>
-        <p>Comfort Stay, Better Days</p>
-
-        <nav>
-            <ul>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a class="brand" href="index.html">Dream Hotel</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="rooms.html">Rooms</a></li>
-                <li><a href="amenities.html">Amenities</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="amenities.html" aria-current="page">Amenities</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
+
+        <div class="hero hero-compact">
+            <div class="hero-content">
+                <p class="eyebrow">Everything you need</p>
+                <h1>Our Amenities</h1>
+            </div>
+        </div>
     </header>
 
     <main class="container content-page">
-        <p class="eyebrow">Everything you need</p>
-        <h2>Our Amenities</h2>
-        <p class="page-intro">Enjoy thoughtful facilities designed to make your visit comfortable and convenient.</p>
+        <p class="page-intro">Thoughtful facilities designed to make your visit comfortable and convenient.</p>
 
         <div class="card-grid amenity-grid">
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">Wi</span><h3>Free Wi-Fi</h3><p>Stay connected throughout your visit.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">01</span><h3>Swimming Pool</h3><p>Take a refreshing break by the water.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">02</span><h3>Restaurant and Bar</h3><p>Enjoy food and drinks during your stay.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">03</span><h3>Free Parking</h3><p>Convenient parking is available for guests.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">04</span><h3>Room Service</h3><p>Enjoy added convenience from your room.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">05</span><h3>Fitness Centre</h3><p>Keep up with your fitness routine.</p></article>
-            <article class="info-card amenity-card"><span class="amenity-icon" aria-hidden="true">06</span><h3>Conference Facilities</h3><p>Spaces for meetings and business events.</p></article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/wifi.png" alt="" width="48" height="48">
+                    <h3>Free Wi-Fi</h3>
+                    <p>Stay connected throughout your visit.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/pool.png" alt="" width="48" height="48">
+                    <h3>Swimming Pool</h3>
+                    <p>Take a refreshing break by the water.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/dining.png" alt="" width="48" height="48">
+                    <h3>Restaurant and Bar</h3>
+                    <p>Enjoy food and drinks during your stay.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/parking.png" alt="" width="48" height="48">
+                    <h3>Free Parking</h3>
+                    <p>Convenient parking is available for guests.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/room-service.png" alt="" width="48" height="48">
+                    <h3>Room Service</h3>
+                    <p>Enjoy added convenience from your room.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/fitness.png" alt="" width="48" height="48">
+                    <h3>Fitness Centre</h3>
+                    <p>Keep up with your fitness routine.</p>
+                </div>
+            </article>
+            <article class="info-card amenity-card">
+                <div class="card-body">
+                    <img class="amenity-image" src="images/amenities/conference.png" alt="" width="48" height="48">
+                    <h3>Conference Facilities</h3>
+                    <p>Spaces for meetings and business events.</p>
+                </div>
+            </article>
         </div>
         <a class="back-link" href="index.html">Back to Home</a>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p class="footer-brand">Dream Hotel</p>
+                <p>Comfort Stay, Better Days</p>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="rooms.html">Rooms</a></li>
+                    <li><a href="amenities.html">Amenities</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="admin.html">Manager dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contact">
+                <a href="mailto:info@dreamhotel.com">info@dreamhotel.com</a>
+                <a href="tel:+254796488109">+254 796488109</a>
+                <p>Kenya</p>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 Dream Hotel. All rights reserved.</p>
+    </footer>
+
+    <script src="nav.js" defer></script>
 </body>
 </html>
