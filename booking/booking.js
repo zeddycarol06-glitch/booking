@@ -18,6 +18,7 @@ const serverInstructions = "Start the Dream Hotel server with npm start, then op
 const DEFAULT_GUESTS_MAX = 10;
 
 let roomCatalog = [];
+let quoteTimer;
 
 function formatMoney(amount) {
     return `KSh ${Number(amount).toLocaleString("en-US")}`;
@@ -43,7 +44,41 @@ function updateGuestLimit() {
     }
 }
 
-function updateQuote() {
+function renderQuote(quote) {
+    const parts = [`${quote.nights} night${quote.nights === 1 ? "" : "s"} × ${formatMoney(quote.baseNightlyRate)} = ${formatMoney(quote.baseTotal)}`];
+    if (quote.adjustments) {
+        parts.push(`Season/weekend +${formatMoney(quote.adjustments)}`);
+    }
+    if (quote.discount) {
+        parts.push(`${quote.discountLabel} −${formatMoney(quote.discount)}`);
+    }
+    parts.push(`Total ${formatMoney(quote.totalPrice)}`);
+    let text = parts.join(" · ");
+    if (quote.depositDue) {
+        text += ` · Deposit due ${formatMoney(quote.depositDue)} (${quote.depositPercent}%)`;
+    }
+    priceQuote.textContent = text;
+    priceQuote.hidden = false;
+}
+
+function localQuote() {
+    const room = selectedRoom();
+    const nights = stayNights();
+    if (!room || !nights) return null;
+    return {
+        nights,
+        baseNightlyRate: room.nightlyRate,
+        baseTotal: nights * room.nightlyRate,
+        adjustments: 0,
+        discount: 0,
+        discountLabel: null,
+        totalPrice: nights * room.nightlyRate,
+        depositDue: 0,
+        depositPercent: 0
+    };
+}
+
+async function updateQuote() {
     const room = selectedRoom();
     const nights = stayNights();
     if (!room || !nights) {
@@ -51,9 +86,23 @@ function updateQuote() {
         priceQuote.textContent = "";
         return;
     }
-    const total = nights * room.nightlyRate;
-    priceQuote.textContent = `${nights} night${nights === 1 ? "" : "s"} × ${formatMoney(room.nightlyRate)} = ${formatMoney(total)} total`;
-    priceQuote.hidden = false;
+    clearTimeout(quoteTimer);
+    quoteTimer = setTimeout(async () => {
+        const params = new URLSearchParams({
+            roomType: roomSelect.value,
+            checkIn: checkInInput.value,
+            checkOut: checkOutInput.value
+        });
+        try {
+            const response = await fetch(`/api/quote?${params}`);
+            if (!response.ok) throw new Error();
+            const data = await response.json();
+            renderQuote(data.quote);
+        } catch {
+            const fallback = localQuote();
+            if (fallback) renderQuote(fallback);
+        }
+    }, 250);
 }
 
 async function loadRoomCatalog() {
@@ -157,7 +206,10 @@ form.addEventListener("submit", async (event) => {
         const priceSummary = result.booking.totalPrice != null
             ? ` Total: ${formatMoney(result.booking.totalPrice)} for ${result.booking.nights} night${result.booking.nights === 1 ? "" : "s"}.`
             : "";
-        message.textContent = `Your request was received. Reference: ${result.booking.id}.${priceSummary}`;
+        const depositSummary = result.paymentRequired && result.booking.depositDue
+            ? ` Pay your ${formatMoney(result.booking.depositDue)} M-Pesa deposit here: track.html?reference=${encodeURIComponent(result.booking.id)}`
+            : "";
+        message.textContent = `Your request was received. Reference: ${result.booking.id}.${priceSummary}${depositSummary}`;
         message.classList.add("is-success");
     } catch (error) {
         if (window.location.protocol === "file:") {

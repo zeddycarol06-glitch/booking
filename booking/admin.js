@@ -9,6 +9,7 @@ const searchInput = document.querySelector("#booking-search");
 const statusFilter = document.querySelector("#status-filter");
 
 let searchTimer;
+let calendarFrom = new Date().toISOString().slice(0, 10);
 
 async function readApiResponse(response) {
     const text = await response.text();
@@ -95,12 +96,19 @@ function renderBookings(bookings) {
         status.className = `status-badge status-${booking.status}`;
         status.textContent = booking.status;
         statusCell.append(status);
+        if (booking.payment && booking.payment.state && booking.payment.state !== "not_required") {
+            const pay = document.createElement("span");
+            pay.className = `pay-badge pay-${booking.payment.state}`;
+            const labels = { paid: "Paid", required: "Unpaid", prompted: "Awaiting", failed: "Failed" };
+            pay.textContent = `${labels[booking.payment.state] || booking.payment.state} ${formatMoney(booking.payment.amount)}`;
+            statusCell.append(pay);
+        }
         row.append(statusCell);
 
         const actionCell = document.createElement("td");
         const statusSelect = document.createElement("select");
         statusSelect.setAttribute("aria-label", `Update booking status for ${booking.name}`);
-        for (const value of ["pending", "confirmed", "rejected"]) {
+        for (const value of ["pending", "confirmed", "rejected", "cancelled"]) {
             const option = document.createElement("option");
             option.value = value;
             option.textContent = value.charAt(0).toUpperCase() + value.slice(1);
@@ -143,7 +151,8 @@ function updateStats(counts) {
         total: "stat-total",
         pending: "stat-pending",
         confirmed: "stat-confirmed",
-        rejected: "stat-rejected"
+        rejected: "stat-rejected",
+        cancelled: "stat-cancelled"
     };
     for (const [key, id] of Object.entries(targets)) {
         const element = document.getElementById(id);
@@ -213,4 +222,96 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
     }
 });
 
+function addDays(dateString, days) {
+    const date = new Date(`${dateString}T00:00:00.000Z`);
+    date.setUTCDate(date.getUTCDate() + days);
+    return date.toISOString().slice(0, 10);
+}
+
+function shortDate(dateString) {
+    return new Date(`${dateString}T00:00:00.000Z`).toLocaleDateString("en-US", {
+        weekday: "short", day: "numeric", month: "short", timeZone: "UTC"
+    });
+}
+
+function renderCalendar(data) {
+    const from = data.from;
+    const to = data.to;
+    document.querySelector("#calendar-range").textContent = `${shortDate(from)} — ${shortDate(to)}`;
+    const table = document.querySelector("#calendar-table");
+    table.replaceChildren();
+
+    const dates = data.roomTypes[0]?.days.map((day) => day.date) || [];
+    const head = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    headRow.append(document.createElement("th"));
+    for (const date of dates) {
+        const th = document.createElement("th");
+        th.textContent = shortDate(date).replace(", ", " ");
+        headRow.append(th);
+    }
+    head.append(headRow);
+    table.append(head);
+
+    const body = document.createElement("tbody");
+    for (const room of data.roomTypes) {
+        const row = document.createElement("tr");
+        const label = document.createElement("th");
+        label.scope = "row";
+        label.textContent = `${room.roomType} (${room.totalRooms})`;
+        row.append(label);
+        for (const day of room.days) {
+            const cell = document.createElement("td");
+            const full = day.occupied >= room.totalRooms;
+            const partial = day.occupied > 0 && !full;
+            cell.className = `calendar-cell ${full ? "is-full" : partial ? "is-partial" : "is-free"}`;
+            cell.textContent = `${day.occupied}/${room.totalRooms}`;
+            cell.title = day.guests.length
+                ? day.guests.map((guest) => `${guest.name} (${guest.status})`).join("\n")
+                : "Available";
+            row.append(cell);
+        }
+        body.append(row);
+    }
+    table.append(body);
+}
+
+async function loadCalendar() {
+    const to = addDays(calendarFrom, 13);
+    const data = await request(`/api/occupancy?from=${calendarFrom}&to=${to}`);
+    renderCalendar(data);
+}
+
+const tabBookings = document.querySelector("#tab-bookings");
+const tabOccupancy = document.querySelector("#tab-occupancy");
+const bookingsPanel = document.querySelector("#bookings-panel");
+const occupancyPanel = document.querySelector("#occupancy-panel");
+
+function selectTab(which) {
+    const showBookings = which === "bookings";
+    tabBookings.classList.toggle("is-active", showBookings);
+    tabOccupancy.classList.toggle("is-active", !showBookings);
+    tabBookings.setAttribute("aria-selected", String(showBookings));
+    tabOccupancy.setAttribute("aria-selected", String(!showBookings));
+    bookingsPanel.hidden = !showBookings;
+    occupancyPanel.hidden = showBookings;
+    if (!showBookings) {
+        loadCalendar().catch((error) => setMessage(dashboardMessage, error.message, true));
+    }
+}
+
+tabBookings.addEventListener("click", () => selectTab("bookings"));
+tabOccupancy.addEventListener("click", () => selectTab("occupancy"));
+document.querySelector("#calendar-prev").addEventListener("click", () => {
+    calendarFrom = addDays(calendarFrom, -7);
+    loadCalendar().catch((error) => setMessage(dashboardMessage, error.message, true));
+});
+document.querySelector("#calendar-next").addEventListener("click", () => {
+    calendarFrom = addDays(calendarFrom, 7);
+    loadCalendar().catch((error) => setMessage(dashboardMessage, error.message, true));
+});
+document.querySelector("#calendar-today").addEventListener("click", () => {
+    calendarFrom = new Date().toISOString().slice(0, 10);
+    loadCalendar().catch((error) => setMessage(dashboardMessage, error.message, true));
+});
 checkSession();

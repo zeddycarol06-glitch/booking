@@ -26,6 +26,7 @@
                 <li><a href="rooms.html">Rooms</a></li>
                 <li><a href="amenities.html">Amenities</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="track.html">My booking</a></li>
             </ul>
         </nav>
 
@@ -82,43 +83,72 @@
                     <span class="stat-value" id="stat-rejected">0</span>
                     <span class="stat-label">Rejected</span>
                 </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-cancelled">0</span>
+                    <span class="stat-label">Cancelled</span>
+                </div>
+            </div>
+
+            <div class="tab-bar" role="tablist" aria-label="Dashboard views">
+                <button class="tab-button is-active" id="tab-bookings" type="button" role="tab" aria-selected="true" aria-controls="bookings-panel">Bookings</button>
+                <button class="tab-button" id="tab-occupancy" type="button" role="tab" aria-selected="false" aria-controls="occupancy-panel">Occupancy</button>
             </div>
 
             <p id="dashboard-message" class="form-message" role="status" aria-live="polite"></p>
 
-            <div class="dashboard-toolbar">
-                <div class="search-wrap">
-                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-                    <label class="visually-hidden" for="booking-search">Search bookings</label>
-                    <input id="booking-search" type="search" placeholder="Search name, email, phone or reference">
+            <div id="bookings-panel" role="tabpanel" aria-labelledby="tab-bookings">
+                <div class="dashboard-toolbar">
+                    <div class="search-wrap">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+                        <label class="visually-hidden" for="booking-search">Search bookings</label>
+                        <input id="booking-search" type="search" placeholder="Search name, email, phone or reference">
+                    </div>
+                    <label class="visually-hidden" for="status-filter">Filter by status</label>
+                    <select id="status-filter">
+                        <option value="">All statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
                 </div>
-                <label class="visually-hidden" for="status-filter">Filter by status</label>
-                <select id="status-filter">
-                    <option value="">All statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="rejected">Rejected</option>
-                </select>
+
+                <div class="table-wrap">
+                    <table class="booking-table">
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Room</th>
+                                <th>Stay</th>
+                                <th>Guests</th>
+                                <th>Total</th>
+                                <th>Received</th>
+                                <th>Status</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booking-list"></tbody>
+                    </table>
+                </div>
+                <p id="empty-state" class="empty-state" hidden>No booking requests match the current filters.</p>
             </div>
 
-            <div class="table-wrap">
-                <table class="booking-table">
-                    <thead>
-                        <tr>
-                            <th>Guest</th>
-                            <th>Room</th>
-                            <th>Stay</th>
-                            <th>Guests</th>
-                            <th>Total</th>
-                            <th>Received</th>
-                            <th>Status</th>
-                            <th>Update</th>
-                        </tr>
-                    </thead>
-                    <tbody id="booking-list"></tbody>
-                </table>
+            <div id="occupancy-panel" role="tabpanel" aria-labelledby="tab-occupancy" hidden>
+                <div class="calendar-toolbar">
+                    <button class="secondary-button" id="calendar-prev" type="button">◀ Earlier</button>
+                    <button class="secondary-button" id="calendar-today" type="button">Today</button>
+                    <button class="secondary-button" id="calendar-next" type="button">Later ▶</button>
+                    <span class="calendar-range" id="calendar-range"></span>
+                </div>
+                <div class="calendar-wrap">
+                    <table class="calendar-table" id="calendar-table"></table>
+                </div>
+                <div class="calendar-legend">
+                    <span class="legend-item"><span class="legend-swatch is-free"></span>Available</span>
+                    <span class="legend-item"><span class="legend-swatch is-partial"></span>Partly booked</span>
+                    <span class="legend-item"><span class="legend-swatch is-full"></span>Fully booked</span>
+                </div>
             </div>
-            <p id="empty-state" class="empty-state" hidden>No booking requests match the current filters.</p>
         </section>
     </main>
 

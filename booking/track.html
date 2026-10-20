@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your Dream Hotel booking — check status, pay your M-Pesa deposit or cancel your stay.">
+    <meta name="theme-color" content="#0F2436">
+    <title>Manage Your Booking — Dream Hotel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230F2436'/><text x='32' y='45' font-size='38' font-family='Georgia,serif' font-weight='bold' fill='%23C9A24B' text-anchor='middle'>D</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a class="brand" href="index.html">Dream Hotel</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="track.html" aria-current="page">My booking</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero hero-compact">
+            <div class="hero-content">
+                <p class="eyebrow">Guest self-service</p>
+                <h1>Manage Your Booking</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container content-page">
+        <p class="page-intro">Enter your booking reference and the email you used to check your status, pay your deposit or cancel.</p>
+
+        <section class="booking-card track-card">
+            <form class="form" id="track-form">
+                <div class="field">
+                    <label for="track-reference">Booking reference</label>
+                    <input id="track-reference" name="reference" type="text" placeholder="e.g. e80ae9a0-412a-4bda-90ef-1d3543756536" autocomplete="off" required>
+                </div>
+                <div class="field">
+                    <label for="track-email">Email</label>
+                    <input id="track-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+                <div class="field field-span">
+                    <button class="btn btn-primary btn-block" type="submit">Find my booking</button>
+                    <p id="track-message" class="form-message" role="status" aria-live="polite"></p>
+                </div>
+            </form>
+
+            <div id="track-result" hidden>
+                <div class="track-summary">
+                    <div class="track-header">
+                        <div>
+                            <p class="eyebrow">Reference</p>
+                            <p class="track-ref" id="track-ref"></p>
+                        </div>
+                        <span class="status-badge" id="track-status"></span>
+                    </div>
+                    <dl class="track-details">
+                        <div><dt>Guest</dt><dd id="track-guest"></dd></div>
+                        <div><dt>Room</dt><dd id="track-room"></dd></div>
+                        <div><dt>Stay</dt><dd id="track-stay"></dd></div>
+                        <div><dt>Guests</dt><dd id="track-guests"></dd></div>
+                        <div><dt>Total</dt><dd id="track-total"></dd></div>
+                        <div><dt>Deposit due</dt><dd id="track-deposit"></dd></div>
+                    </dl>
+                </div>
+
+                <div class="payment-panel" id="payment-panel" hidden>
+                    <h3>Pay your deposit</h3>
+                    <p id="payment-status" class="payment-status" role="status" aria-live="polite"></p>
+                    <div class="field">
+                        <label for="payment-phone">M-Pesa phone number</label>
+                        <input id="payment-phone" type="tel" placeholder="0712 345 678" autocomplete="tel">
+                    </div>
+                    <button class="btn btn-primary btn-block" id="pay-button" type="button">Pay deposit via M-Pesa</button>
+                </div>
+
+                <div class="track-actions">
+                    <button class="secondary-button" id="cancel-booking" type="button">Cancel this booking</button>
+                </div>
+            </div>
+        </section>
+
+        <a class="back-link" href="index.html">Back to Home</a>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p class="footer-brand">Dream Hotel</p>
+                <p>Comfort Stay, Better Days</p>
+            </div>
+            <nav aria-label="Footer">
+                <ul class="footer-links">
+                    <li><a href="rooms.html">Rooms</a></li>
+                    <li><a href="amenities.html">Amenities</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="track.html">My booking</a></li>
+                    <li><a href="admin.html">Manager dashboard</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contact">
+                <a href="mailto:info@dreamhotel.com">info@dreamhotel.com</a>
+                <a href="tel:+254796488109">+254 796488109</a>
+                <p>Kenya</p>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 Dream Hotel. All rights reserved.</p>
+    </footer>
+
+    <script src="nav.js" defer></script>
+    <script src="track.js?v=1" defer></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateBooking } from "../validation.js";
+import { validateBooking, validateStay } from "../validation.js";
+import { getRoomType } from "../rooms.js";
 
 const validBooking = {
     name: "Jamie Guest",
@@ -41,4 +42,17 @@ test("enforces per-room-type guest limits", () => {
     const suiteWithSix = validateBooking({ ...validBooking, roomType: "Luxury Suite", guests: "6" }, "2027-01-01");
     assert.equal(suiteWithSix.valid, true);
     assert.equal(validateBooking({ ...validBooking, roomType: "Luxury Suite", guests: "7" }, "2027-01-01").valid, false);
+});
+
+test("validateStay accepts a valid room and date range", () => {
+    const room = getRoomType("Standard Room");
+    assert.equal(validateStay(room, "2027-06-10", "2027-06-12", "2027-01-01").valid, true);
+});
+
+test("validateStay rejects unknown rooms and bad date ranges", () => {
+    const room = getRoomType("Standard Room");
+    assert.equal(validateStay(null, "2027-06-10", "2027-06-12", "2027-01-01").valid, false);
+    assert.equal(validateStay(room, "2027-06-12", "2027-06-10", "2027-01-01").valid, false);
+    assert.equal(validateStay(room, "2027-06-30", "2027-07-02", "2027-06-31").valid, false);
+    assert.equal(validateStay(room, "bad-date", "2027-06-12", "2027-01-01").valid, false);
 });

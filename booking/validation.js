@@ -9,8 +9,7 @@ function isValidCalendarDate(value) {
     return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
 }
 
-export function validateBooking(input, today = new Date().toISOString().slice(0, 10)) {
-    if (!input || typeof input !== "object" || Array.isArray(input)) {
+export function validateBooking(input, today = new Date().toISOString().slice(0, 10)) {    if (!input || typeof input !== "object" || Array.isArray(input)) {
         return { valid: false, error: "Enter your booking details." };
     }
 
@@ -46,4 +45,14 @@ export function validateBooking(input, today = new Date().toISOString().slice(0,
         valid: true,
         booking: { name, email, phone, roomType, checkIn, checkOut, guests }
     };
+}
+
+export function validateStay(room, checkIn, checkOut, today = new Date().toISOString().slice(0, 10)) {
+    if (!room) {
+        return { valid: false, error: "Choose one of the available room types." };
+    }
+    if (!isValidCalendarDate(checkIn) || !isValidCalendarDate(checkOut) || checkIn < today || checkOut <= checkIn) {
+        return { valid: false, error: "Choose valid dates, with check-out after check-in and no dates in the past." };
+    }
+    return { valid: true };
 }

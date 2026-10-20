@@ -1230,3 +1230,254 @@ main.content-page > .btn {
         max-width: 320px;
     }
 }
+
+/* ---------- Tabs ---------- */
+.tab-bar {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    margin: 18px 0 4px;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+}
+
+.tab-button {
+    padding: 9px 22px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.tab-button:hover {
+    color: var(--navy);
+}
+
+.tab-button.is-active {
+    background: var(--navy);
+    color: #fff;
+}
+
+/* ---------- Payment badge ---------- */
+.pay-badge {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-transform: none;
+}
+
+.pay-paid {
+    color: var(--success);
+}
+
+.pay-failed {
+    color: var(--danger);
+}
+
+.pay-required,
+.pay-prompted {
+    color: #96762a;
+}
+
+.status-cancelled {
+    background: var(--line);
+    color: var(--muted);
+}
+
+/* ---------- Occupancy calendar ---------- */
+.calendar-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+}
+
+.calendar-range {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.calendar-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+}
+
+.calendar-table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 720px;
+    font-size: 13px;
+}
+
+.calendar-table th,
+.calendar-table td {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 10px 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.calendar-table thead th {
+    background: var(--surface-alt);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.calendar-table tbody th {
+    text-align: left;
+    background: var(--surface-alt);
+    color: var(--navy);
+    font-weight: 600;
+    position: sticky;
+    left: 0;
+}
+
+.calendar-cell {
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.calendar-cell.is-free {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
+.calendar-cell.is-partial {
+    background: var(--gold-soft);
+    color: #96762a;
+}
+
+.calendar-cell.is-full {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.calendar-legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.legend-swatch.is-free {
+    background: var(--success-soft);
+    border: 1px solid var(--success);
+}
+
+.legend-swatch.is-partial {
+    background: var(--gold-soft);
+    border: 1px solid #96762a;
+}
+
+.legend-swatch.is-full {
+    background: var(--danger-soft);
+    border: 1px solid var(--danger);
+}
+
+/* ---------- Track page ---------- */
+.track-card {
+    padding: 28px;
+}
+
+.track-summary {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    background: var(--surface-alt);
+}
+
+.track-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.track-ref {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--navy);
+    word-break: break-all;
+}
+
+.track-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+}
+
+.track-details dt {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 2px;
+}
+
+.track-details dd {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.payment-panel {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--gold-line);
+    border-radius: 14px;
+    background: var(--gold-soft);
+}
+
+.payment-panel h3 {
+    font-family: var(--font-display);
+    color: var(--navy);
+    margin-bottom: 8px;
+}
+
+.payment-status {
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.payment-status.is-error {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.track-actions {
+    margin-top: 20px;
+}
+
